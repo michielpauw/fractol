@@ -6,7 +6,7 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 18:08:33 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/12 15:46:28 by mpauw            ###   ########.fr       */
+/*   Updated: 2017/12/13 19:49:01 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,3 +61,32 @@ int	in_julia(t_complex z, t_complex c, int iterations)
 		return (i);
 	return (0);
 }
+
+int	in_sierpinski(t_complex z, t_complex c, int iterations)
+{
+	int	x;
+	int	y;
+
+	(void)c;
+	x = (int)z.r;
+	y = (int)z.i;
+	while ((x > 0 || y > 0))
+	{
+		if (x % 3 == 1 && y % 3 == 1)
+			return (0);
+		x /= 3;
+		y /= 3;
+		iterations--;
+	}
+	return (1);
+}
+/*
+int	in_pythagoras(t_complex z, t_complex c, int iterations)
+{
+	int	x;
+	int	y;
+
+	(void)c;
+	x = (int)z.r;
+	y = (int)z.i;
+}*/

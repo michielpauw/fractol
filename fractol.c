@@ -6,7 +6,7 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 18:07:23 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/08 07:49:44 by mpauw            ###   ########.fr       */
+/*   Updated: 2017/12/13 19:23:22 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,15 @@ void	error(int code)
 	exit(1);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	handle_window();
+	int	fractal;
+
+	srand(time(NULL));
+	fractal = 0;
+	if (argc == 2)
+		fractal = ft_atoi(argv[1]);
+	else if (argc > 2)
+		error(errno);
+	handle_window(fractal);
 }

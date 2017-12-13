@@ -6,7 +6,7 @@
 #    By: mpauw <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/06 17:41:17 by mpauw             #+#    #+#              #
-#    Updated: 2017/12/12 15:48:20 by mpauw            ###   ########.fr        #
+#    Updated: 2017/12/13 18:29:24 by mpauw            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,13 +15,15 @@ FLAGS = -Wall -Wextra -Werror
 INCLUDES = fractol.h
 SRCS = fractol.c \
 	   quadratic_map.c \
-	   fractal.c \
+	   get_fractal.c \
 	   window_control.c \
 	   zoom_control.c \
-	   image_functions.c
+	   image_functions.c \
+	   setup_event.c \
+	   mouse_event.c
 OBJ = $(SRCS:%.c=%.o)
 LFTDIR = libft/
-LMLXDIR = minilibx_macos/ 
+LMLXDIR = minilibx_macos/
 LIBFT = libft.a
 LIBMLX = libmlx.a
 FT = ft

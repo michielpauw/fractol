@@ -6,35 +6,35 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 14:19:42 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/11 16:52:24 by mpauw            ###   ########.fr       */
+/*   Updated: 2017/12/13 19:51:46 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-t_img	*set_zoom(t_img *img, int x, int y, int dir)
+t_event	*set_zoom(t_event *event, int x, int y, int dir)
 {
-	img->x_zero = img->x_zero + dir * x * (img->val_pp - img->val_pp *
-			(img->zoom_new_r / (double)img->zoom_old_r));
-	img->y_zero = img->y_zero + dir * y * (img->val_pp - img->val_pp *
-			(img->zoom_new_r / (double)img->zoom_old_r));
+	(event->frc).x_zero = (event->frc).x_zero + dir * x *
+		((event->frc).val_pp - (event->frc).val_pp * ZOOM_FACTOR);
+	(event->frc).y_zero = (event->frc).y_zero + dir * y * 
+		((event->frc).val_pp - (event->frc).val_pp * ZOOM_FACTOR);
 	if (dir > 0)
-		img->val_pp = img->val_pp * (img->zoom_new_r / (double)img->zoom_old_r);
+		(event->frc).val_pp = (event->frc).val_pp * ZOOM_FACTOR;
 	else
-		img->val_pp = img->val_pp / (img->zoom_new_r / (double)img->zoom_old_r);
-	return (img);
+		(event->frc).val_pp = (event->frc).val_pp / ZOOM_FACTOR;
+	return (event);
 }
 
-t_img	*set_move(t_img *img, int dir)
+t_event	*set_move(t_event *event, int dir)
 {
 	if (dir == 1 || dir == -1)
-		img->y_zero += img->val_pp * dir * IMG_H / 10;
+		(event->frc).y_zero += (event->frc).val_pp * dir * IMG_H / 10;
 	if (dir == 2 || dir == -2)
-		img->x_zero += img->val_pp * dir * IMG_W / 20;
-	return (img);
+		(event->frc).x_zero += (event->frc).val_pp * dir * IMG_W / 20;
+	return (event);
 }
 
-t_img	*set_color(t_img *img, int color)
+t_event	*set_color(t_event *event, int color, int disco)
 {
 	int	sign;
 
@@ -42,19 +42,29 @@ t_img	*set_color(t_img *img, int color)
 	if (color >= 6 && color <= 8)
 		sign = -1;
 	if (color == 0 || color == 6)
-		img->color += sign * 0x010000;
+		event->color += sign * 0x010000;
 	else if (color == 1 || color == 7)
-		img->color += sign * 0x000100;
+		event->color += sign * 0x000100;
 	else if (color == 2 || color == 8)
-		img->color += sign * 0x000001;
-	return (img);
+		event->color += sign * 0x000001;
+	else if (color == 0x0f)
+		event->color = 0x100000;
+	else if (color == 0x05)
+		event->color = 0x1000;
+	else if (color == 0x0b)
+		event->color = 0x10;
+	if (event->color < 0)
+		event->color = 0xffffff - event->color % 0xffffff;
+	if (disco)
+		event->sec_color = rand() % 0xffffff;
+	return (event);
 }
 
-t_img	*set_detail(t_img *img, int detail)
+t_event	*set_detail(t_event *event, int detail)
 {
 	if (detail == 27 && detail > 0x10)
-		img->detail -= 0x10;
+		(event->frc).iterations -= 0x10;
 	else
-		img->detail += 0x10;
-	return (img);
+		(event->frc).iterations += 0x10;
+	return (event);
 }

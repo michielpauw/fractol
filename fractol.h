@@ -6,7 +6,7 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 17:45:21 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/12 15:48:03 by mpauw            ###   ########.fr       */
+/*   Updated: 2017/12/13 19:50:22 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@
 # define IMG_X 0
 # define IMG_Y 0
 # define TO_DIS_W 4.0
-# define GRAIN 16
+# define AMOUNT_FRAC 2
+# define ZOOM_FACTOR 0.75
+
+# define PointerMotionMask (1L<<6)
+# define Button1MotionMask (1L<<8)
+# define MotionNotify 6
 
 # include "libft.h"
 # include "mlx.h"
@@ -32,6 +37,7 @@
 # include <stdio.h>
 # include <math.h>
 # include <errno.h>
+# include <time.h>
 
 typedef struct	s_complex
 {
@@ -43,41 +49,62 @@ typedef struct	s_img
 {
 	void		*img_ptr;
 	char		*img_arr;
-	char		*new_arr;
 	int			width;
 	int			height;
 	int			bpp;
 	int			size_line;
 	int			size_line_int;
 	int			endian;
-	int			color;
-	int			detail;
-	int			zoom_old_r;
-	int			zoom_new_r;
-	int			cur_grain;
-	long double	val_pp;
+}				t_img;
+
+typedef struct	s_fractal
+{
+	int			id;
+	char		*title;
+	int			(*f)();
+	int			grain;
+	int			width;
+	int			height;
+	int			iterations;
 	long double	x_zero;
 	long double	y_zero;
-}				t_img;
+	long double	val_pp;
+}				t_fractal;
 
 typedef struct	s_event
 {
 	void		*win;
 	void		*mlx;
+	int			store_x;
+	int			store_y;
 	t_img		*img;
+	t_complex	c;
+	t_fractal	frc;
+	int			cur_grain;
+	int			disco;
+	int			color;
+	int			sec_color;
 }				t_event;
 
 int			in_mandelbrot(t_complex z, t_complex c, int iterations);
 int			in_julia(t_complex z, t_complex c, int iterations);
-void		handle_window(void);
-t_img		*get_fractal(t_img *img, t_complex c, int (f)(t_complex, t_complex, int));
+int			in_sierpinski(t_complex z, t_complex c, int iterations);
+void		handle_window(int fractal);
+t_event		*get_fractal(t_event *event);
 void		error(int code);
-t_img		*set_zoom(t_img *img, int x, int y, int dir);
-t_img		*set_move(t_img *img, int dir);
-t_img		*set_color(t_img *img, int color);
-t_img		*set_detail(t_img *img, int detail);
+t_event		*set_zoom(t_event *event, int x, int y, int dir);
+t_event		*set_move(t_event *event, int dir);
+t_event		*set_color(t_event *event, int color, int disco);
+t_event		*set_detail(t_event *event, int detail);
 int			fill_square(t_img **img, int index, int size, int color);
-long double	get_im(t_img *img, int index);
-long double	get_re(t_img *img, int index);
+long double	get_im(t_event *event, int index);
+long double	get_re(t_event *event, int index);
+t_img		*init_image(void *mlx, int width_scr, int height_scr);
+t_event		*setup_event(void *mlx, int fractal);
+t_event		*new_image(t_event *event);
+t_event		*update_event(t_event *event, int fractal);
+int			mouse_motion_julia(int x, int y, void *param);
+int			mouse_motion_sierpinski(int x, int y, void *param);
+int			mouse_click(int button, int x, int y, void *param);
 
 #endif

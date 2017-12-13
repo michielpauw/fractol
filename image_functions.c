@@ -6,25 +6,53 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 15:01:50 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/12 15:02:25 by mpauw            ###   ########.fr       */
+/*   Updated: 2017/12/13 19:46:00 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-long double	get_re(t_img *img, int index)
+t_event		*new_image(t_event *event)
+{
+	event = get_fractal(event);
+	mlx_put_image_to_window(event->mlx, event->win,
+			(event->img)->img_ptr, IMG_X, IMG_Y);
+	return (event);
+}
+
+t_img		*init_image(void *mlx, int width_scr, int height_scr)
+{
+	t_img	*img;
+	int		bpp;
+	int		size_line;
+	int		endian;
+
+	if (!(img = (t_img *)malloc(sizeof(t_img))))
+		error(errno);
+	img->img_ptr = mlx_new_image(mlx, width_scr, height_scr);
+	img->width = width_scr;
+	img->height = height_scr;
+	img->img_arr = mlx_get_data_addr(img->img_ptr, &bpp, &size_line, &endian);
+	img->bpp = bpp;
+	img->size_line = size_line;
+	img->size_line_int = size_line / (bpp / 8);
+	img->endian = endian;
+	return (img);
+}
+
+long double	get_re(t_event *event, int index)
 {
 	long double	re;
 
-	re = img->x_zero + img->val_pp * (index % img->size_line_int);
+	re = (event->frc).x_zero + (event->frc).val_pp * (index % (event->img)->size_line_int);
 	return (re);
 }
 
-long double	get_im(t_img *img, int index)
+long double	get_im(t_event *event, int index)
 {
 	long double	im;
 
-	im = img->y_zero + index * img->val_pp / img->size_line_int;
+	im = (event->frc).y_zero + index * (event->frc).val_pp / (event->img)->size_line_int;
 	return (im);
 }
 
