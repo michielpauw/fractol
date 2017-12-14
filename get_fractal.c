@@ -6,37 +6,33 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 12:23:21 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/13 19:47:19 by mpauw            ###   ########.fr       */
+/*   Updated: 2017/12/14 15:21:44 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-t_event	*get_fractal(t_event *event)
+t_event	*get_fractal(t_event *ev)
 {
 	t_complex	z;
-	int			index;
+	int			i;
 	int			length;
 	int			rep;
 	
-	index = 0;
-	length = (event->img)->size_line_int * (event->frc).height /
-		event->cur_grain * event->cur_grain;
-	while (index < length)
+	if ((ev->frc).id == 3)
+		return (construct_menger(ev));
+	i = 0;
+	length = (ev->img)->size_line_int * (ev->frc).height /
+		ev->cur_grain * ev->cur_grain;
+	while (i < length)
 	{
-		z.i = get_im(event, index);
-		z.r = get_re(event, index);
-		if (!(rep = (event->frc).f(z, event->c, (event->frc).iterations)))
-		{
-			index = fill_square(&(event->img), index,
-					event->cur_grain, event->sec_color);
-		}
+		z.i = get_im(ev, i);
+		z.r = get_re(ev, i);
+		if (!(rep = (ev->frc).f(z, ev->c, (ev->frc).iterations)))
+			i = fill_square(&(ev->img), i, ev->cur_grain, ev->sec_color);
 		else
-		{
-			index = fill_square(&(event->img), index, event->cur_grain,
-				(((rep * 0xff) / (event->frc).iterations) *
-				 event->color) % 0xffffff); 
-		}
+			i = fill_square(&(ev->img), i, ev->cur_grain, (((rep * 0xff) /
+							(ev->frc).iterations) * ev->color) % 0xffffff); 
 	}
-	return (event);
+	return (ev);
 }

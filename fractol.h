@@ -6,7 +6,7 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 17:45:21 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/13 19:50:22 by mpauw            ###   ########.fr       */
+/*   Updated: 2017/12/14 18:19:47 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # define TO_DIS_W 4.0
 # define AMOUNT_FRAC 2
 # define ZOOM_FACTOR 0.75
+# define ROT_ANGLE M_PI / 8
+# define DIST_CAM 1500
 
 # define PointerMotionMask (1L<<6)
 # define Button1MotionMask (1L<<8)
@@ -38,6 +40,20 @@
 # include <math.h>
 # include <errno.h>
 # include <time.h>
+
+typedef struct			s_angle
+{
+	int					x;
+	int					y;
+	int					index;
+}						t_angle;
+
+typedef struct			s_point
+{
+	int					x;
+	int					y;
+	int					z;
+}						t_point;
 
 typedef struct	s_complex
 {
@@ -89,6 +105,7 @@ typedef struct	s_event
 int			in_mandelbrot(t_complex z, t_complex c, int iterations);
 int			in_julia(t_complex z, t_complex c, int iterations);
 int			in_sierpinski(t_complex z, t_complex c, int iterations);
+t_event		*construct_menger(t_event *event);
 void		handle_window(int fractal);
 t_event		*get_fractal(t_event *event);
 void		error(int code);
@@ -106,5 +123,10 @@ t_event		*update_event(t_event *event, int fractal);
 int			mouse_motion_julia(int x, int y, void *param);
 int			mouse_motion_sierpinski(int x, int y, void *param);
 int			mouse_click(int button, int x, int y, void *param);
+t_img		*fill_surface(t_img	*img, t_angle square[4], int color);
+t_point		*get_projection(t_point *data, int cam, t_event *event);
+t_point		*simple_rotation(t_point *points, int axis, int dir);
+t_point		*get_cube(int size);
+float		**get_rotation_matrix(int axis, int dir);
 
 #endif
