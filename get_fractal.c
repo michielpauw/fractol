@@ -6,7 +6,7 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 12:23:21 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/14 15:21:44 by mpauw            ###   ########.fr       */
+/*   Updated: 2017/12/15 14:46:24 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ t_event	*get_fractal(t_event *ev)
 	int			length;
 	int			rep;
 	
-	if ((ev->frc).id == 3)
-		return (construct_menger(ev));
 	i = 0;
 	length = (ev->img)->size_line_int * (ev->frc).height /
 		ev->cur_grain * ev->cur_grain;

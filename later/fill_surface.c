@@ -6,7 +6,7 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 08:04:19 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/14 18:19:56 by mpauw            ###   ########.fr       */
+/*   Updated: 2017/12/15 12:29:50 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	check_in(int index, t_angle sq[4], t_img *img)
 					sq[0].y) + sq[2].x * (sq[0].y - sq[1].y))) / 2;
 	surface_sq += abs(sq[0].x * (sq[3].y - sq[2].y) + sq[3].x * (sq[2].y -
 				sq[0].y) + sq[2].x * (sq[0].y - sq[3].y)) / 2;
-	if (surface < surface_sq)
+	if (surface <= surface_sq)
 		return (1);
 	return (0);
 }
@@ -82,8 +82,6 @@ t_img	*fill_surface(t_img	*img, t_angle square[4], int color)
 	int		*order;
 
 	i = 0;
-	begin = 0;
-	end = 0;
 	order = get_first(square);
 	begin = square[order[0]].index;
 	end = square[order[3]].index;

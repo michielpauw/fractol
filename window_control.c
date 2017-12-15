@@ -6,7 +6,7 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 14:12:27 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/14 18:19:54 by mpauw            ###   ########.fr       */
+/*   Updated: 2017/12/15 16:30:06 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,17 @@ static int		loop_event(void *param)
 	if (event->disco)
 		event = set_color(event, colors[abs(rand() % 6)], 1);
 	if (event->cur_grain > 1)
-	{
 		event->cur_grain /= 2;
+	if (event->cur_grain > 1 || event->disco)
+	{
+		event = new_image(event);
+		event->coor_put = 0;
 	}
-	event = new_image(event);
+	if (!event->coor_put)
+	{
+		event = put_coordinates(event);
+		event->coor_put = 1;
+	}
 	return (1);
 }
 

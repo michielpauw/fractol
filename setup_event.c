@@ -6,7 +6,7 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 13:57:50 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/14 15:20:51 by mpauw            ###   ########.fr       */
+/*   Updated: 2017/12/15 16:29:07 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ static t_fractal	find_frac(int fractal)
 	static t_fractal	frac_array[] = {
 		{0, "Mandelbrot", &in_mandelbrot, 16, 1800, 1200, 0xff, -2.0, -4.0 / 3.0, 4.0 / 1800},
 		{1, "Julia", &in_julia, 8, 1800, 1200, 0xff, -2.0, -4.0 / 3.0, 4.0 / 1800},
-		{2, "Sierpinski", &in_sierpinski, 1, 1200, 1200, 1, 0, 0, 3.0 / 1200},
-		{3, "Menger sponge", &in_julia, 1, 1200, 1200, 1, 0, 0, 3.0 / 1200}
+		{2, "Sierpinski", &in_sierpinski, 1, 1200, 1200, 1, 0, 0, 3.0 / 1200}
 	};
 	return (frac_array[fractal]);
 }
@@ -39,6 +38,7 @@ t_event				*setup_event(void *mlx, int fractal)
 	event->cur_grain = (event->frc).grain;
 	event->store_x = 0;
 	event->store_y = 0;
+	event->coor_put = 0;
 	event->disco = 0;
 	event->color = 0x100000;
 	event->sec_color = 0xffffff;

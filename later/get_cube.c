@@ -6,7 +6,7 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 19:58:21 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/14 18:19:46 by mpauw            ###   ########.fr       */
+/*   Updated: 2017/12/15 12:41:13 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,16 @@ static t_point	matrix_mult_3d(t_point *p, float **mat)
 	p->z = x_cur * mat[2][0] + y_cur * mat[2][1] + z_cur * mat[2][2];
 	return (*p);
 }
-
+/*
+ *   7-----6
+ *  /|    /|
+ * 3-----2 |
+ * | |   | |
+ * | 4---|-5
+ * |/    |/
+ * 0-----1
+ *
+ */
 t_point	*get_cube(int size)
 {
 	int	i;
@@ -42,13 +51,13 @@ t_point	*get_cube(int size)
 		else
 			cube[i].z =  -size;
 		if (i == 2 || i == 6 || i == 5 || i == 1)
-			cube[i].x = size;
-		else
 			cube[i].x = -size;
-		if (i == 2 || i == 3 || i == 6 || i == 7)
-			cube[i].y = -size;
 		else
+			cube[i].x = size;
+		if (i == 2 || i == 3 || i == 6 || i == 7)
 			cube[i].y = size;
+		else
+			cube[i].y = -size;
 		i++;
 	}
 	return (cube);
