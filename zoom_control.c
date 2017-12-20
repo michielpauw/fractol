@@ -14,6 +14,14 @@
 
 t_event	*set_zoom(t_event *event, int x, int y, int dir)
 {
+	if ((event->frc).id == 2)
+	{
+		if (dir == 1)
+			(event->frc).val_pp *= 3.0;
+		else if ((event->frc).val_pp > 3.0 / IMG_SQ_3)
+			(event->frc).val_pp /= 3.0;
+		return (event);
+	}
 	(event->frc).x_zero = (event->frc).x_zero + dir * x *
 		((event->frc).val_pp - (event->frc).val_pp * ZOOM_FACTOR);
 	(event->frc).y_zero = (event->frc).y_zero + dir * y * 
@@ -25,13 +33,18 @@ t_event	*set_zoom(t_event *event, int x, int y, int dir)
 	return (event);
 }
 
-t_event	*set_move(t_event *event, int dir)
+t_event	*set_move(t_event *ev, int key)
 {
-	if (dir == 1 || dir == -1)
-		(event->frc).y_zero += (event->frc).val_pp * dir * IMG_H / 10;
-	if (dir == 2 || dir == -2)
-		(event->frc).x_zero += (event->frc).val_pp * dir * IMG_W / 20;
-	return (event);
+	int	dir;
+
+	if ((ev->frc).id == 2)
+		return (ev);
+	dir = (key == 125 || key == 124) ? 1 : -1;
+	if (key == 125 || key == 126)
+		(ev->frc).y_zero += (ev->frc).val_pp * dir * (ev->frc).height / 10;
+	if (key == 123 || key == 124)
+		(ev->frc).x_zero += (ev->frc).val_pp * dir * (ev->frc).width / 20;
+	return (ev);
 }
 
 t_event	*set_color(t_event *event, int color, int disco)
@@ -42,11 +55,11 @@ t_event	*set_color(t_event *event, int color, int disco)
 	if (color >= 6 && color <= 8)
 		sign = -1;
 	if (color == 0 || color == 6)
-		event->color += sign * 0x010000;
+		event->color += sign * 0x020000;
 	else if (color == 1 || color == 7)
-		event->color += sign * 0x000100;
+		event->color += sign * 0x000200;
 	else if (color == 2 || color == 8)
-		event->color += sign * 0x000001;
+		event->color += sign * 0x000002;
 	else if (color == 0x0f)
 		event->color = 0x100000;
 	else if (color == 0x05)

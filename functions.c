@@ -67,16 +67,16 @@ int	in_sierpinski(t_complex z, t_complex c, int iterations)
 	int	x;
 	int	y;
 
+	(void)iterations;
 	(void)c;
 	x = (int)z.r;
 	y = (int)z.i;
-	while ((x > 0 || y > 0))
+	while (x > 0 || y > 0)
 	{
 		if (x % 3 == 1 && y % 3 == 1)
 			return (0);
 		x /= 3;
 		y /= 3;
-		iterations--;
 	}
 	return (1);
 }

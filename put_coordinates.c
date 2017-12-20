@@ -22,18 +22,18 @@ char	*ld_to_str(long double c)
 	if (!(str = (char *)malloc(sizeof(char) * 12)))
 		error(errno);
 	nb = ft_itoa(c);
-	i = 0;
+	i = -1;
 	if (ft_strlen(nb) > 9)
 		return (nb);
-	while (*nb)
-		str[i++] = *(nb++);
+	while (nb[++i])
+		str[i] = nb[i];
+	free(nb);
 	str[i++] = '.';
 	if (c < 0)
 		c = -1 * c;
 	while (i < 11)
 	{
-		c = c * 10;
-		b = (int)floor(c) % 10;
+		b = (int)floor(c * 10) % 10;
 		str[i] = (char)b + '0';
 		i++;
 	}
@@ -53,6 +53,26 @@ static long double	get_y_coor(t_event *ev, int loc, int *pos_y)
 	return (*pos_y * (ev->frc).val_pp + (ev->frc).y_zero);
 }
 
+static char			*get_str(long double x, long double y)
+{
+	char	*str;
+	char	*x_str;
+	char	*y_str;
+
+	x_str = ld_to_str(x);
+	y_str = ld_to_str(y);
+	if (!(str = (char *)malloc(sizeof(char) * 26)))
+		error(errno);
+	str = ft_strcat(str, "(");
+	str = ft_strcat(str, x_str);
+	str = ft_strcat(str, ", ");
+	str = ft_strcat(str, y_str);
+	str = ft_strcat(str, ")");
+	free(x_str);
+	free(y_str);
+	return (str);
+}
+
 t_event	*put_coordinates(t_event *ev)
 {
 	long double	x;
@@ -67,16 +87,16 @@ t_event	*put_coordinates(t_event *ev)
 	{
 		x = get_x_coor(ev, i, &pos_x);
 		y = get_y_coor(ev, i, &pos_y);
-		if (!(str = (char *)malloc(sizeof(char) * 26)))
-			error(errno);
-		str = ft_strcat(str, "(");
-		str = ft_strcat(str, ld_to_str(x));
-		str = ft_strcat(str, ", ");
-		str = ft_strcat(str, ld_to_str(y));
-		str = ft_strcat(str, ")");
-		mlx_string_put(ev->mlx, ev->win, pos_x, pos_y, ev->sec_color * 0xff, str);
+		str = get_str(x, y);
+		if (i < 2)
+			mlx_string_put(ev->mlx, ev->win, pos_x, pos_y - 20,
+							ev->sec_color * 0xff, str);
+		else	
+			mlx_string_put(ev->mlx, ev->win, pos_x, pos_y + 20,
+							ev->sec_color * 0xff, str);
+		mlx_string_put(ev->mlx, ev->win, pos_x, pos_y,
+						ev->sec_color * 0xffff, " *");
 		free(str);
-		*str = 0;
 		i++;
 	}
 	return (ev);

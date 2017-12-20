@@ -14,7 +14,7 @@ NAME = fractol
 FLAGS = -Wall -Wextra -Werror 
 INCLUDES = fractol.h
 SRCS = fractol.c \
-	   fractal_functions.c \
+	   functions.c \
 	   get_fractal.c \
 	   window_control.c \
 	   zoom_control.c \
@@ -36,11 +36,11 @@ all : $(NAME)
 
 $(NAME): $(OBJ) $(LFTDIR)$(LIBFT) $(LMLXDIR)$(LIBMLX) 
 	-@gcc $(FLAGS) -o $(NAME) -g $(OBJ) -I$(LFTDIR) -L$(LFTDIR) -l$(FT) \
-		-L$(LMLXDIR) -l$(MLX) $(FRAMEWORK)
+	 -I$(LMLXDIR) -L$(LMLXDIR) -l$(MLX) $(FRAMEWORK)
 	-@echo "Fractol Ready"
 
 %.o: %.c $(INCLUDES)
-	-@gcc $(FLAGS) -I$(LFTDIR) -c $(SRCS)
+	-@gcc $(FLAGS) -I$(LFTDIR) -I$(LMLXDIR) -c $(SRCS)
 
 $(LFTDIR)$(LIBFT):
 	$(MAKE) -C $(LFTDIR) $(LIBFT)
@@ -50,11 +50,11 @@ $(LMLXDIR)$(LIBMLX):
 
 clean:
 	-@/bin/rm -f $(OBJ)
-##	-@$(MAKE) -C $(LFTDIR) clean
-##	-@$(MAKE) -C $(LMLXDIR) clean
+	-@$(MAKE) -C $(LFTDIR) clean
+	-@$(MAKE) -C $(LMLXDIR) clean
 
 fclean: clean
 	-@/bin/rm -f $(NAME)
-##	-@$(MAKE) -C $(LFTDIR) fclean
+	-@$(MAKE) -C $(LFTDIR) fclean
 
 re: fclean all

@@ -25,9 +25,10 @@ int	main(int argc, char **argv)
 	srand(time(NULL));
 	fractal = 0;
 	if (argc == 2)
-		fractal = ft_atoi(argv[1]);
+		fractal = ft_atoi(argv[1]) - 1;
 	else if (argc > 2)
 		error(errno);
+	if (fractal > AMOUNT_FRAC - 1 || fractal < 0)
+	   fractal = 0;	
 	handle_window(fractal);
 }
-

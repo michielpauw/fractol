@@ -19,14 +19,8 @@ static int		key_pressed(int key, void *param)
 	event = (t_event *)param;
 	if (key == 53)
 		exit(0);
-	else if (key == 126)
-		event = set_move(event, -1);
-	else if (key == 125)
-		event = set_move(event, 1);
-	else if (key == 123)
-		event = set_move(event, -2);
-	else if (key == 124)
-		event = set_move(event, 2);
+	else if (key >= 123 && key <= 126)
+		event = set_move(event, key);
 	else if ((key >= 6 && key <= 8) || (key >= 0 && key <= 2) || key == 0x0f ||
 			key == 0x05 || key == 0x0b)
 		event = set_color(event, key, 0);
@@ -34,6 +28,12 @@ static int		key_pressed(int key, void *param)
 		event = set_detail(event, key);
 	else if (key == 0x23)
 		event->disco = (event->disco + 1) % 2;
+	else if (key == 31)
+		event->coor_wanted = (event->coor_wanted + 1) % 2;
+	else if ((key >= 18 && key < (18 + AMOUNT_FRAC) && key != 24 && key != 27) || key == 43 || key == 47)
+		change_fractal(event, key);
+	else if (key == 0x31)
+		event->change_c = 1;
 	event->cur_grain = (event->frc).grain;
 	event = new_image(event);
 	return (1);
@@ -54,12 +54,42 @@ static int		loop_event(void *param)
 		event = new_image(event);
 		event->coor_put = 0;
 	}
-	if (!event->coor_put)
+	if (!event->coor_put && event->coor_wanted && (event->frc).id != 2)
 	{
 		event = put_coordinates(event);
 		event->coor_put = 1;
 	}
 	return (1);
+}
+
+static int		toggle_change_c(int key, void *param)
+{
+	t_event	*event;
+
+	event = (t_event *)param;
+	if (key == 0x31)
+		event->change_c = 0;
+	else
+		key_pressed(key, param);
+	return (1);
+}
+
+void			loop(t_event *event)
+{
+	mlx_key_hook(event->win, &key_pressed, event);
+	mlx_mouse_hook(event->win, &mouse_click, event);
+	mlx_loop_hook(event->mlx, &loop_event, event);
+	if ((event->frc).id == 1)
+	{
+		mlx_hook(event->win, MotionNotify, PointerMotionMask, &mouse_motion_julia, event);
+		mlx_hook(event->win, KeyPress, KeyPressMask, &toggle_change_c, event);
+	}
+	else if ((event->frc).id == 2)
+		mlx_hook(event->win, MotionNotify, Button1MotionMask, &mouse_motion_sierpinski, event);
+	if (((event->frc).id == 1 || (event->frc).id == 0))
+		mlx_hook(event->win, MotionNotify, PointerMotionMask, &drag_fractal, event);
+	mlx_hook(event->win, ButtonRelease, ButtonReleaseMask, &toggle_button, event);
+	mlx_loop(event->mlx);
 }
 
 void			handle_window(int fractal)
@@ -74,12 +104,5 @@ void			handle_window(int fractal)
 	event->img = init_image(mlx, (event->frc).width, (event->frc).height); 
 	event = get_fractal(event);
 	mlx_put_image_to_window(mlx, event->win, (event->img)->img_ptr, IMG_X, IMG_Y);
-	mlx_key_hook(event->win, &key_pressed, event);
-	mlx_mouse_hook(event->win, &mouse_click, event);
-	mlx_loop_hook(mlx, &loop_event, event);
-	if ((event->frc).id == 1)
-		mlx_hook(event->win, MotionNotify, PointerMotionMask, &mouse_motion_julia, event);
-	else if ((event->frc).id == 2)
-		mlx_hook(event->win, MotionNotify, Button1MotionMask, &mouse_motion_sierpinski, event);
-	mlx_loop(mlx);
+	loop(event);
 }

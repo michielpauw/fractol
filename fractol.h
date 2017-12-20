@@ -12,23 +12,23 @@
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
-# define ITERATIONS 0xff
-# define INIT_W 1800
-# define INIT_H 1200
-# define IMG_W 1800.0
-# define IMG_H 1200.0
-# define ZERO_OFF_X IMG_W / 5 
+# define IMG_W 1200.0
+# define IMG_H 800.0
+# define IMG_SQ_3 729.0
 # define IMG_X 0
 # define IMG_Y 0
-# define TO_DIS_W 4.0
-# define AMOUNT_FRAC 2
+# define AMOUNT_FRAC 3
 # define ZOOM_FACTOR 0.75
-# define ROT_ANGLE M_PI / 8
-# define DIST_CAM 1500
 
 # define PointerMotionMask (1L<<6)
 # define Button1MotionMask (1L<<8)
+# define ButtonReleaseMask (1L<<3)
+# define KeyPressMask (1L<<0)
+# define KeyReleaseMask (1L<<1)
 # define MotionNotify 6
+# define KeyPress 2
+# define KeyRelease 3
+# define ButtonRelease 5
 
 # include "libft.h"
 # include "mlx.h"
@@ -86,7 +86,11 @@ typedef struct	s_event
 	int			disco;
 	int			color;
 	int			sec_color;
+	int			coor_wanted;
 	int			coor_put;
+	int			change_c;
+	int			mouse_hold;
+	int			moved;
 }				t_event;
 
 int			in_mandelbrot(t_complex z, t_complex c, int iterations);
@@ -110,5 +114,9 @@ int			mouse_motion_julia(int x, int y, void *param);
 int			mouse_motion_sierpinski(int x, int y, void *param);
 int			mouse_click(int button, int x, int y, void *param);
 t_event		*put_coordinates(t_event *ev);
+t_event		*change_fractal(t_event *event, int fractal);
+void		loop(t_event *event);
+int			drag_fractal(int x, int y, void *param);
+int			toggle_button(int button, int x, int y, void *param);
 
 #endif
