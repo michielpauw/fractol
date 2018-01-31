@@ -6,13 +6,13 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 18:08:33 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/15 14:21:26 by mpauw            ###   ########.fr       */
+/*   Updated: 2018/01/02 16:47:46 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int	in_mandelbrot(t_complex c, t_complex z, int iterations)
+int		in_mand(t_complex c, t_complex z, int iterations)
 {
 	long double		z_r_sq;
 	long double		z_i_sq;
@@ -38,7 +38,7 @@ int	in_mandelbrot(t_complex c, t_complex z, int iterations)
 	return (0);
 }
 
-int	in_julia(t_complex z, t_complex c, int iterations)
+int		in_julia(t_complex z, t_complex c, int iterations)
 {
 	int			i;
 	long double	z_r_sq;
@@ -62,7 +62,7 @@ int	in_julia(t_complex z, t_complex c, int iterations)
 	return (0);
 }
 
-int	in_sierpinski(t_complex z, t_complex c, int iterations)
+int		in_sierp(t_complex z, t_complex c, int iterations)
 {
 	int	x;
 	int	y;
@@ -79,4 +79,32 @@ int	in_sierpinski(t_complex z, t_complex c, int iterations)
 		y /= 3;
 	}
 	return (1);
+}
+
+t_event	*add_tri_point(t_event *event, int x, int y)
+{
+	int	random;
+	int	x_tri;
+	int	y_tri;
+
+	random = rand() % 3;
+	y_tri = I_H - MARGIN_TRI;
+	if (random == 0)
+	{
+		x_tri = I_H / 2.0;
+		y_tri = MARGIN_TRI;
+	}
+	else
+		x_tri = (random == 1) ? 100 : I_H - MARGIN_TRI;
+	if (!x && !y)
+	{
+		x = 0.5 * (event->store_x + x_tri);
+		y = 0.5 * (event->store_y + y_tri);
+	}
+	event->cur_grain += 1;
+	event->store_x = x;
+	event->store_y = y;
+	((int *)((event->img)->img_arr))[x + y *
+		((event->img)->size_line_int)] = event->color;
+	return (event);
 }

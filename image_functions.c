@@ -6,7 +6,7 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 15:01:50 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/13 19:46:00 by mpauw            ###   ########.fr       */
+/*   Updated: 2018/01/02 16:47:46 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 t_event		*new_image(t_event *event)
 {
-	event = get_fractal(event);
+	if ((event->frc).id != 3)
+		event = get_fractal(event);
 	mlx_put_image_to_window(event->mlx, event->win,
 			(event->img)->img_ptr, IMG_X, IMG_Y);
 	return (event);
@@ -44,7 +45,8 @@ long double	get_re(t_event *event, int index)
 {
 	long double	re;
 
-	re = (event->frc).x_zero + (event->frc).val_pp * (index % (event->img)->size_line_int);
+	re = (event->frc).x_zero + (event->frc).val_pp *
+		(index % (event->img)->size_line_int);
 	return (re);
 }
 
@@ -52,7 +54,8 @@ long double	get_im(t_event *event, int index)
 {
 	long double	im;
 
-	im = (event->frc).y_zero + index * (event->frc).val_pp / (event->img)->size_line_int;
+	im = (event->frc).y_zero + index * (event->frc).val_pp /
+		(event->img)->size_line_int;
 	return (im);
 }
 
@@ -67,7 +70,8 @@ int			fill_square(t_img **img, int index, int size, int color)
 		j = 0;
 		while (j < size && (index / (*img)->size_line_int) + j < (*img)->height)
 		{
-			((int *)((*img)->img_arr))[index + i + j * (*img)->size_line_int] = color;
+			((int *)((*img)->img_arr))[index + i + j *
+				(*img)->size_line_int] = color;
 			j++;
 		}
 		i++;

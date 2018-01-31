@@ -6,7 +6,7 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 14:19:42 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/13 19:51:46 by mpauw            ###   ########.fr       */
+/*   Updated: 2018/01/02 16:47:45 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ t_event	*set_zoom(t_event *event, int x, int y, int dir)
 	{
 		if (dir == 1)
 			(event->frc).val_pp *= 3.0;
-		else if ((event->frc).val_pp > 3.0 / IMG_SQ_3)
+		else if ((event->frc).val_pp > 3.0 / I_S)
 			(event->frc).val_pp /= 3.0;
 		return (event);
 	}
 	(event->frc).x_zero = (event->frc).x_zero + dir * x *
 		((event->frc).val_pp - (event->frc).val_pp * ZOOM_FACTOR);
-	(event->frc).y_zero = (event->frc).y_zero + dir * y * 
+	(event->frc).y_zero = (event->frc).y_zero + dir * y *
 		((event->frc).val_pp - (event->frc).val_pp * ZOOM_FACTOR);
 	if (dir > 0)
 		(event->frc).val_pp = (event->frc).val_pp * ZOOM_FACTOR;
