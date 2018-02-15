@@ -24,7 +24,8 @@ SRCS = fractol.c \
 	   put_coordinates.c 
 OBJ = $(SRCS:%.c=%.o)
 LFTDIR = libft/
-LMLXDIR = minilibx_macos/
+#LMLXDIR = minilibx_macos/
+LMLXDIR = mlx_macbook/ 
 LIBFT = libft.a
 LIBMLX = libmlx.a
 FT = ft
