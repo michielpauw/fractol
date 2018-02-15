@@ -6,7 +6,7 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:05:52 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/13 19:07:02 by mpauw            ###   ########.fr       */
+/*   Updated: 2018/01/02 16:47:44 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,12 @@ int		toggle_button(int button, int x, int y, void *param)
 		event->mouse_hold = 0;
 	if (!event->moved)
 	{
+		if ((event->frc).id == 3)
+		{
+			if (event->cur_grain == 1)
+				event = add_tri_point(event, x, y);
+			return (1);
+		}
 		if (button == 1 || button == 4)
 			event = set_zoom(event, x, y, 1);
 		else if (button == 2 || button == 5)

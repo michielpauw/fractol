@@ -6,13 +6,13 @@
 /*   By: mpauw <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 14:50:28 by mpauw             #+#    #+#             */
-/*   Updated: 2017/12/15 16:35:57 by mpauw            ###   ########.fr       */
+/*   Updated: 2018/01/02 13:40:33 by mpauw            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-char	*ld_to_str(long double c)
+static char			*ld_to_str(long double c)
 {
 	int		b;
 	int		i;
@@ -73,10 +73,8 @@ static char			*get_str(long double x, long double y)
 	return (str);
 }
 
-t_event	*put_coordinates(t_event *ev)
+t_event				*put_coordinates(t_event *ev)
 {
-	long double	x;
-	long double	y;
 	int		i;
 	int		pos_x;
 	int		pos_y;
@@ -85,13 +83,11 @@ t_event	*put_coordinates(t_event *ev)
 	i = 0;
 	while (i < 4)
 	{
-		x = get_x_coor(ev, i, &pos_x);
-		y = get_y_coor(ev, i, &pos_y);
-		str = get_str(x, y);
+		str = get_str(get_x_coor(ev, i, &pos_x), get_y_coor(ev, i, &pos_y));
 		if (i < 2)
 			mlx_string_put(ev->mlx, ev->win, pos_x, pos_y - 20,
 							ev->sec_color * 0xff, str);
-		else	
+		else
 			mlx_string_put(ev->mlx, ev->win, pos_x, pos_y + 20,
 							ev->sec_color * 0xff, str);
 		mlx_string_put(ev->mlx, ev->win, pos_x, pos_y,
