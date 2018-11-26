@@ -6,8 +6,8 @@ In this project I create all sorts of fractals. The main challenge I encountered
 ### Mandelbrot (1)
 The fractal created by the Mandelbrot set is the best known fractal in the world. The Mandelbrot set consists of all complex numbers _c_ for which the function _f<sub>c</sub>(z) = z<sup>2</sup> + c_ does not diverge, when iterated with initial _z = 0_. This set is completely black in the fractal. The colors signify the rate at which the numbers that are not in the set diverge. 
 
-![alt_text](./images/mandelbrot.png)
-![alt_text](./images/mandelbrot_2.png)
+![alt_text](./images/mandelbrot.png)  
+![alt_text](./images/mandelbrot_2.png)  
 
 #### Controls
 Move around: arrow keys or mouse drag and drop  
