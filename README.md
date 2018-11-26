@@ -21,3 +21,4 @@ Divide every square into nine smaller squares. Then remove the middle one of tho
 
 ### Sierpinski triangle (4)
 A very similar pattern to the Sierpinski carpet, but generated in a completely different way. I use a chaos game to generate this fractal, and therefore at first the triangle looks different every time I create it. Let it render for a while, though, and you can see the same pattern as the Sierpinski carpet, but then with squares. Pretty cool!
+![alt_text](./images/triangle.png)
