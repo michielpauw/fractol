@@ -4,7 +4,7 @@ In this project I create all sorts of fractals. The main challenge I encountered
 
 ## Different fractals
 ### Mandelbrot (1)
-The fractal created by the Mandelbrot set is the best known fractal in the world. The Mandelbrot set consists of all complex numbers _c_ for which the function _f<sub>c</sub>(z) = z<sup>2</sup> + c_ does not diverge, when iterated with initial _z = 0_. This set is completely black in the fractal. The colors signify the rate at which the numbers that are not in the set diverge. 
+The fractal created by the Mandelbrot set is the best known fractal in the world. The Mandelbrot set consists of all complex numbers _c_ for which the function _f<sub>c</sub>(z) = z<sup>2</sup> + c_ does not diverge, when iterated with initial _z = 0_. This set is completely white in the fractal below. The colors signify the rate at which the numbers that are not in the set diverge. 
 
 ![alt_text](./images/mandelbrot_2.png)  
 
@@ -16,7 +16,7 @@ Color change: A and Z (red value), S and X (green value), D and C (blue value), 
 ![alt_text](./images/mandelbrot.png)   
 
 ### Julia (2)
-The fractal created by the Julia set has many similarities to the Mandelbrot fractal. Here too, the colors signify the rate at which numbers diverge and numbers that are in the Julia set are black. The function that we use is also very similar, but the elements of the Julia set are the complex numbers _z_ for which the function _f<sub>c</sub>(z) = z<sup>2</sup> + c_ does not diverge. This set is different for every complex number _c_, and therefore the image changes with _c_. We give the value for _c_ by moving the mouse on the screen.  
+The fractal created by the Julia set has many similarities to the Mandelbrot fractal. Here too, the colors signify the rate at which numbers diverge and numbers that are in the Julia set are one specific color. The function that we use is also very similar, but the elements of the Julia set are the complex numbers _z_ for which the function _f<sub>c</sub>(z) = z<sup>2</sup> + c_ does not diverge. This set is different for every complex number _c_, and therefore the image changes with _c_. We give the value for _c_ by moving the mouse on the screen.  
 ![alt_text](./images/julia_1.png)
 
 #### Controls
