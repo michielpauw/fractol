@@ -24,7 +24,12 @@ SRCS = fractol.c \
 	   put_coordinates.c 
 OBJ = $(SRCS:%.c=%.o)
 LFTDIR = libft/
-LMLXDIR = minilibx_macos/
+#
+# Use other $LMLXDIR by (un)commenting the following two lines 
+# if the project does not compile. 
+# 
+#LMLXDIR = minilibx_macos/
+LMLXDIR = mlx_macbook/ 
 LIBFT = libft.a
 LIBMLX = libmlx.a
 FT = ft
